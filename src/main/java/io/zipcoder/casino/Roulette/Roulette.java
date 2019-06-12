@@ -6,6 +6,9 @@ public class Roulette implements GamblingGame {
 
     public class Roulette implements GamblingGame {
         private Random random;
+        private BasePlayer player;
+        private BasePlayer dealer;
+
         private RoulettePlayer player;
         private RoulettePlayer dealer;
 
@@ -19,7 +22,6 @@ public class Roulette implements GamblingGame {
         private int myValue;
         private String myColor;
         private Random myRoll;
-        private BasePlayer base;
 
         public Roulette(BasePlayer player, BasePlayer dealer) {
             this.player = (RoulettePlayer) player;
@@ -67,9 +69,10 @@ public class Roulette implements GamblingGame {
 
         public String getSpin() {
             Roulette roulette = new Roulette(dealer, player);
-            Object[] spin  = roulette.getNumber(),
-            return
-
+            Object[] spin  = roulette.getNumber(), roulette.getColor();
+            return spin;
         }
+
+        public
 
 }
