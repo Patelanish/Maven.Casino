@@ -1,16 +1,15 @@
 package io.zipcoder.casino.Roulette;
 import java.util.Random;
+
+import io.zipcoder.casino.utilities.BasePlayer;
 import io.zipcoder.casino.utilities.GamblingGame;
 
 public class Roulette implements GamblingGame {
 
-    public class Roulette implements GamblingGame {
         private Random random;
         private BasePlayer player;
         private BasePlayer dealer;
-
-        private RoulettePlayer player;
-        private RoulettePlayer dealer;
+        private Integer num;
 
         //Don't think I'm going to need the final colors. The num arrays should do.
         public static final String RED = "red";
@@ -36,12 +35,6 @@ public class Roulette implements GamblingGame {
 
 
 
-
-        public String getColor() {
-            return myColor;
-        }
-
-
         public void placeWager() {
 
         }
@@ -54,25 +47,28 @@ public class Roulette implements GamblingGame {
 
         }
 
+        //Should return a random number (spin)
         public Integer getNumber(){
-
             Random random = new Random();
             Integer num = random.nextInt(36) + 1;
             return num;
         }
 
+        //Should return corresponding color to spin number
         public String getColor(Integer num) {
             if (num % 2 == 0 && num != 0) {
                 return RED;
-            } return BLACK;
+            } else if (num % 2 == 1 && num != 0) {
+                return BLACK;
+            } return GREEN;
         }
 
-        public String getSpin() {
+        //Should return an object array with player spin results (number and color)
+        public Object[] getSpin() {
             Roulette roulette = new Roulette(dealer, player);
-            Object[] spin  = roulette.getNumber(), roulette.getColor();
+            Object[] spin  = {num, roulette.getColor(num)};
             return spin;
         }
 
-        public
 
 }
