@@ -47,7 +47,7 @@ public class Roulette implements GamblingGame {
 
         }
 
-        //Should return a random number (spin)
+        //Should return a random number between 0 and 36 (spin)
         public Integer getNumber(){
             Random random = new Random();
             Integer num = random.nextInt(36) + 1;
@@ -64,7 +64,7 @@ public class Roulette implements GamblingGame {
         }
 
         //Should return an object array with player spin results (number and color)
-        public Object[] getSpin() {
+        public Object[] getSpinResults() {
             Roulette roulette = new Roulette(dealer, player);
             Object[] spin  = {num, roulette.getColor(num)};
             return spin;

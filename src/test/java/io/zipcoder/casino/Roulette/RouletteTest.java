@@ -8,6 +8,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class RouletteTest {
 
+//    private Integer actualNum;
+
     @Test
     void getColor(Integer num) {
        Roulette roulette = new Roulette(null, null);
@@ -64,19 +66,19 @@ class RouletteTest {
         Assert.assertEquals(expectedColor, actualColor);
     }
 
-//    @Test
-//    void getColor5(Integer num) {
-//        Roulette roulette = new Roulette(null, null);
-//        //Given
-//        String expectedColor = "black";
-//
-//        //When
-//        String actualColor = roulette.getColor(35);
-//
-//
-//        //Then
-//        Assert.assertEquals(expectedColor, actualColor);
-//    }
+    @Test
+    void getColor5(Integer num) {
+        Roulette roulette = new Roulette(null, null);
+        //Given
+        String expectedColor = "black";
+
+        //When
+        String actualColor = roulette.getColor(35);
+
+
+        //Then
+        Assert.assertEquals(expectedColor, actualColor);
+    }
 
     @Test
     void getColor6(Integer num) {
@@ -92,14 +94,23 @@ class RouletteTest {
         Assert.assertEquals(expectedColor, actualColor);
     }
 
-    @Test
-    void getNumber() {
-        //Given
-
-        //When
-
-        //Then
-    }
+//    @Test
+//    void getNumber() {
+//        Roulette roulette = new Roulette(null, null);
+//        //Given and When
+//
+//        Integer actualNum = roulette.getNumber();
+//        Boolean expectedNum = (Boolean) isBetween0and36(actualNum);
+//
+//        //Then
+//        Assert.assertEquals(expectedNum, );
+//    }
+//
+//    public boolean isBetween0and36(Integer actualNum) {
+//        if (actualNum >= 0 && actualNum < 37) {
+//            return true;
+//        } return false;
+//    }
 
     @Test
     void getColor1() {
@@ -111,7 +122,7 @@ class RouletteTest {
     }
 
     @Test
-    void getSpin() {
+    void getSpinResults() {
         //Given
 
         //When
