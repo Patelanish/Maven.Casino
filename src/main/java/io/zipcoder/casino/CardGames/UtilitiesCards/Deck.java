@@ -5,20 +5,20 @@ import java.util.Collections;
 import java.util.Stack;
 
 public class Deck {
-    public static Stack<Card> cards;
-    public static Stack<Card> discardPile;
+    public Stack<Card> cards;
+    public Stack<Card> discardPile;
 
 
     public Deck() {
-        this.cards = new Stack<Card>();
-        this.discardPile = new Stack<Card>();
+        this.cards = new Stack<>();
+        this.discardPile = new Stack<>();
         this.generate();
     }
 
     private void generate() {
         for (Suit suit : Suit.values()) {
             for (Rank rank : Rank.values()) {
-                cards.push(new Card(suit, rank));
+                cards.push(new Card(suit, rank, suit.getSuitImage()));
             }
         }
     }
@@ -27,13 +27,18 @@ public class Deck {
         cards.push(card);
     }
 
-    public static Card draw() {
+    public Card draw() {
         return cards.pop();
     }
 
     public void shuffle() {
         Collections.shuffle(cards);
     }
+
+    public void sortDeck(){
+        Collections.sort(this.cards);
+    }
+
 
     public Integer getDeckSize() {
         return cards.size();
@@ -44,13 +49,13 @@ public class Deck {
     }
 
 
-    public static void burn(Integer numberOfCards){
+    public void burn(Integer numberOfCards){
         for (int i = 0; i < numberOfCards; i++) {
             discardPile.push(draw());
         }
     }
 
-    public static ArrayList<Card> getHand(Integer handSize){
+    public ArrayList<Card> getHand(Integer handSize){
         ArrayList<Card> thisHand = new ArrayList<Card>();
         for (int i = 0; i < handSize; i++){
             thisHand.add(draw());

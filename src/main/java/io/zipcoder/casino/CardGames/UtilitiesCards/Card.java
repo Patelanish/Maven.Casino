@@ -3,12 +3,14 @@ package io.zipcoder.casino.CardGames.UtilitiesCards;
 public class Card implements Comparable<Card> {
     private Suit suit;
     private Rank faceValue;
+    private char imageValue;
     private Boolean isFaceUp;
     //can define as enum
 
-    public Card(Suit suit, Rank faceValue) {
+    public Card(Suit suit, Rank faceValue, char imageValue) {
         this.faceValue = faceValue;
         this.suit = suit;
+        this.imageValue = imageValue;
     }
 
     public Suit getSuite() {
@@ -27,21 +29,25 @@ public class Card implements Comparable<Card> {
         this.faceValue = faceValue;
     }
 
+    public char getImageValue() {
+        return imageValue;
+    }
 
     public String printCard(){
-        String thisCard;
+//        return this.faceValue.getRankString() + "" + this.suit.getSuitImage();
+//    }
+        String thisCard = "";
         if (this.faceValue.getRankValue() > 10 || this.faceValue.getRankValue() == 1){
-            thisCard = this.faceValue.getRankString() + " of " + this.suit.getSuitText();
+            thisCard += this.faceValue.getRankString();
         } else {
-            thisCard = this.faceValue.getRankValue() + " of " + this.suit.getSuitText();
+            thisCard += this.faceValue.getRankValue();
         }
-        return thisCard;
+        return thisCard + "" + this.suit.getSuitImage();
     }
 
 
     @Override
     public int compareTo(Card card) {
-        return (this.getFaceValue().getRankValue() < card.getFaceValue().getRankValue() ? -1 :
-                (this.getFaceValue().getRankValue() == card.getFaceValue().getRankValue() ? 0 : 1));
+        return (Integer.compare(this.getFaceValue().getRankValue(), card.getFaceValue().getRankValue()));
     }
 }
