@@ -28,7 +28,7 @@ public  class BasePlayer {
         if(wallet - amount >= 0 ){
             wallet -= amount;
             return true;
-        }else
+        } else
             return false;
     }
 }

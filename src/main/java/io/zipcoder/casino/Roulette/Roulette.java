@@ -12,98 +12,120 @@ public class Roulette implements GamblingGame {
     private BasePlayer base;
     private BasePlayer dealer;
     private Integer num;
-    private Long wager;
+    private Long bet;
     private int playerWallet = 1000;
-
-    //Constant variables.
-    public static final String RED = "red";
-    public static final String BLACK = "black";
-    public static final String GREEN = "green";
-    public static final String ODD = "odd";
-    public static final String EVEN = "even";
-
-    //Need a method to "spin the wheel"--> generate a random number between 0 and 36.
-    //Need a method to generate a random color (red/black/green).
-    //Can possibly equate colors to numbers as finals.
-    //Need a method to determine whether number is even or odd.
-    //Need sout to explain winner gain ratios.
+    private Console console;
+    private String outcome;
 
 
-    //Change null values later
-    Console console = new Console(null, null);
+    RoulettePlayer player = new RoulettePlayer();
+    RouletteWheel wheel = new RouletteWheel();
+
+
     //Roulette game
-    Roulette roulette = new Roulette();
-    //Roulette player
-    RoulettePlayer roulettePlayer = new RoulettePlayer();
+    Roulette roulette = new Roulette(base, dealer);
 
-    public Roulette() {
-        this.base = (RoulettePlayer) base;
+    public Roulette(BasePlayer base, BasePlayer dealer) {
+        this.base = (RoulettePlayer) this.base;
         this.dealer = (RoulettePlayer) this.dealer;
     }
 
-    //This method should start the game.
-    public void playGame() {
+    String welcomePrompt = "Welcome to the roulette table! This is a tens table. " +
+            "The minimum bet amount is $10!\n";
 
+    //Explaining inside bets, outside bets, and payouts.
+    String rulesOutsideWagers =
+            "You can make an inside bet or outside bet.\n" +
+                    "\tOutside Wagers: \n" +
+                    "\t1. RED or BLACK - Bet on the color of the winning number.\n" +
+                    "\t2. ODD or EVEN - Bet on whether the winning number will be odd or even.\n" +
+                    "\t3. DOZENS - Bet on one of the three dozen that are found on the layout of the table.\n" +
+                    "\t4. COLUMNS - Bet from which of the three columns will the winning number be.\n" +
+                    "\n";
+
+    String rulesInsideWagers =
+            "\tInside Wagers: \n" +
+                    "\t5. STRAIGHT - This is a bet that covers only one number. In order to make this bet, place the chip inside the square of the number.\n" +
+                    "\t6. SPLIT - A bet on two numbers which are adjacent on the table, made by placing the chip on the shared line of the two numbers’ squares.\n" +
+                    "\t7. STREET - A bet on three consecutive numbers located on the same line. Make the bet by placing the chip on the outer corner of the row.\n" +
+                    "\t8. SIX LINE - A bet on two adjacent lines. In order to make this bet, you have to place the chip on the common outer corner of the two lines.\n" +
+                    "\t9. CORNER - This is a four-number bet, placed by putting the chip on the common corner of the four numbers. Also called ‘square’ bet.\n" +
+                    "\t10. TRIO - A three-number bet that includes the zero or zeros. Place the chip on the line shared by the zero box and the two other numbers.\n" +
+                    "\t11. FIVE NUMBERS - Bet on 0, 1, 2 and 3 with a chip on the corner shared by the zero box and the first line. In American Roulette, it includes the double zero.\n" +
+                    "***In order to place a bet and begin playing, type 'Y'. Type 'N' to return back to the lobby.\n" +
+                    "\n";
+
+    String rulesPayouts =
+            "PAYOUTS: \n" +
+                    "1 : 1 -- R/B & O/E \n" +
+                    "2 : 1 -- COLUMNS & DOZENS\n" +
+                    "5 : 1 -- SIX LINE\n" +
+                    "6 : 1 -- FIVE NUMBERS\n" +
+                    "8 : 1 -- CORNER \n" +
+                    "11 : 1 -- STREET & TRIO\n" +
+                    "17 : 1 -- SPLIT\n" +
+                    "35 : 1 -- STRAIGHT\n" +
+                    "\n";
+
+    String playerSetWagers =
+            "Decide on your wagers and type in their corresponding numbers. Remember the minimum wager is $10: ";
+
+    public void welcome() {
+        console.println(welcomePrompt.toString());
     }
 
 
-    //Should return a random number between 0 and 36 (spin)
-    public Integer getSpin(){
-        Random random = new Random();
-        Integer num = random.nextInt(36) + 1;
-        roulette.getColor(num);
-        roulette.getOddEven(num);
-        return num;
-    }
 
-    //Should return color and number of spin
-    public String getColor(Integer num) {
-        String result = "";
-        if (num % 2 == 1 && num != 0) {
-            result = RED + " " + num;
-        } else if (num % 2 == 0 && num != 0) {
-            result = BLACK + " " + num;
+    public void getOutcome(){
+        Integer bet = player.getBet();
+        try {
+            int num = bet;
+            if (num == wheel.getNum()){
+                outcome = " You win 50 plus your original wager!";
+                player.updateWallet(30);
+            } else {
+                outcome = "You lose the game";
+                player.updateWallet(0);
+            }
+        } catch (NumberFormatException e){
+            if (bet.equals("odd")){
+                if (wheel.getNum() %2 == 0){
+                    outcome = "You lose the game";
+                    player.updateWallet(0);
+                } else {
+                    outcome = "You win double your bet!";
+                    player.updateWallet(2);
+                }
+            } else if (bet.equals("equals")){
+                if (wheel.getNum() %2 == 0){
+                    outcome = "You win double your bet!";
+                    player.updateWallet(2);
+                }
+            }
         }
-        result = GREEN + " " + 0;
-        return result;
     }
 
-    //Should return ODD or EVEN result.
-    public String getOddEven(Integer num) {
-        String oddeven = "";
-        if (num % 2 == 0) {
-            oddeven = EVEN;
-        }
-        if (num % 2 != 0) {
-            oddeven = ODD;
-        }
-        return oddeven;
+    private void displayOutcome(){
+
     }
 
-    public String getWinsOrLosses() {
-        return null;
+    public void run(){
+        System.out.println("Welcome to the Roulette tens table! The minimum bet is $10. Spread your ten around.\n"
+                + " If you select the correct color, you win double your bet\n"
+                + " If you select the correct odd/even, you win double your bet\n"
+                + " If you select the right number, you win 30 TIMES your bet\n"
+                + " Otherwise you lose your bet\n"
+                + " If you lose all your money, the game is over");
+
+        do {
+            player.placeWager();
+            player.setBet();
+            wheel.spin();
+            wheel.display();
+            getOutcome();
+            displayOutcome();
+        } while (true);
     }
-
-//        public void placeWager() {
-//            Long wager = console.getLongInput();
-//            if (wager >= 10) {
-//        }
-
-    //toString should include player's spin results and wins or losses.
-//    @Override
-//    public String toString() {
-//        return "Roulette{" +
-//                "console=" + console +
-//                ", wager=" + wager +
-//                ", playerWallet=" + playerWallet +
-//                ", welcomePrompt='" + welcomePrompt + '\'' +
-//                ", random=" + random +
-//                ", player=" + player +
-//                ", dealer=" + dealer +
-//                ", num=" + num +
-//                '}';
-//    }
-
 
     @Override
     public void welcomeMessage() {

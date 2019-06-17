@@ -53,9 +53,16 @@ public final class Console  implements ConsoleIO {
 //            return getLongInput();
 //        }
 //    }
-
-//    public Integer getIntegerInput(String prompt, Object... args) {
-//        return getLongInput().intValue();
-//    }
+    public Integer getIntegerInput(String prompt, Object... args) {
+        String stringInput = getStringInput(prompt, args);
+        try {
+            Integer integerInput = Integer.parseInt(stringInput);
+            return integerInput;
+        } catch (NumberFormatException nfe) { // TODO - Eliminate recursive nature
+            println("[ %s ] is an invalid user input!", stringInput);
+            println("Try inputting a numeric value!");
+            return getIntegerInput(prompt, args);
+        }
+    }
 }
 

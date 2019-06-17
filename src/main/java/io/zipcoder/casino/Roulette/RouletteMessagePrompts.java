@@ -1,6 +1,9 @@
 package io.zipcoder.casino.Roulette;
 
+import io.zipcoder.casino.utilities.Console;
+
 public class RouletteMessagePrompts {
+    Console console;
 
     public void RouletteMessagePrompts() {
     }
@@ -9,7 +12,7 @@ public class RouletteMessagePrompts {
             "The minimum bet amount is $10! You can spread your ten around. Would you like to place a bet?\n";
 
     //Explaining inside bets, outside bets, and payouts.
-    String outsideWagers =
+    String rulesOutsideWagers =
             "You can make an inside bet, outside bet, or both.\n" +
                     "\tOutside Wagers: \n" +
                     "\t1. RED or BLACK - Bet on the color of the winning number.\n" +
@@ -18,7 +21,7 @@ public class RouletteMessagePrompts {
                     "\t4. COLUMNS - Bet from which of the three columns will the winning number be.\n" +
                     "\n";
 
-    String insideWagers =
+    String rulesInsideWagers =
             "\tInside Wagers: \n" +
                     "\t5. STRAIGHT - This is a bet that covers only one number. In order to make this bet, place the chip inside the square of the number.\n" +
                     "\t6. SPLIT - A bet on two numbers which are adjacent on the table, made by placing the chip on the shared line of the two numbers’ squares.\n" +
@@ -30,7 +33,7 @@ public class RouletteMessagePrompts {
                     "***In order to place a bet and begin playing, type 'Y'. Type 'N' to return back to the lobby.\n" +
                     "\n";
 
-    String payouts =
+    String rulesPayouts =
             "PAYOUTS: \n" +
                     "1 : 1 -- R/B & O/E \n" +
                     "2 : 1 -- COLUMNS & DOZENS\n" +
@@ -42,30 +45,35 @@ public class RouletteMessagePrompts {
                     "35 : 1 -- STRAIGHT\n" +
                     "\n";
 
-    String playerChoice =
+    String playerSetWagers =
             "Decide on your wagers and type in their corresponding numbers. Remember the minimum wager is $10: ";
 
-    //Returns welcome prompt
-    public String getWelcomePrompt() {
-        return welcomePrompt;
+
+    //Prints welcome prompt
+    public void getWelcomePrompt() {
+
+        console.println(welcomePrompt.toString());
     }
-    //Returns outside wager rules
-    public String getOutsideWagers() {
-        return outsideWagers;
+    //Prints outside wager rules
+    public void getRulesOutsideWagers() {
+
+        console.println(rulesOutsideWagers.toString());
     }
 
-    //Returns inside wager rules
-    public String getInsideWagers() {
-        return insideWagers;
+    //Prints inside wager rules
+    public void getRulesInsideWagers() {
+
+        console.println(rulesInsideWagers.toString());
     }
 
-    //Returns payout rules
-    public String getPayouts() {
-        return payouts;
+    //Prints payout rules
+    public void getRulesPayouts() {
+
+        console.println(rulesPayouts.toString());
     }
 
-    //Returns player's choice
-    public String getPlayerChoice() {
-        return playerChoice;
+    //Prints player wager choice prompt
+    public void getPlayerSetWagers() {
+        console.println(playerSetWagers.toString());
     }
 }
