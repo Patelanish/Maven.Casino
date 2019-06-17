@@ -1,6 +1,7 @@
 package io.zipcoder.casino.Roulette;
 import java.util.Random;
 
+import io.zipcoder.casino.CardGames.Blackjack.BlackjackPlayer;
 import io.zipcoder.casino.utilities.BasePlayer;
 import io.zipcoder.casino.utilities.Console;
 import io.zipcoder.casino.utilities.GamblingGame;
@@ -20,14 +21,18 @@ public class Roulette implements GamblingGame {
 
     RoulettePlayer player = new RoulettePlayer();
     RouletteWheel wheel = new RouletteWheel();
+    Roulette roulette = new Roulette(player, dealer, console);
 
 
-    //Roulette game
-    Roulette roulette = new Roulette(base, dealer);
+    public Roulette(BasePlayer player, BasePlayer dealer) {
+        this.player = (RoulettePlayer) player;
+        this.dealer = (RoulettePlayer) dealer;
+    }
 
-    public Roulette(BasePlayer base, BasePlayer dealer) {
-        this.base = (RoulettePlayer) this.base;
-        this.dealer = (RoulettePlayer) this.dealer;
+    public Roulette(BasePlayer player, BasePlayer dealer, Console console) {
+        this.player = new RoulettePlayer();
+        this.dealer = new RoulettePlayer();
+//        while (isRunning) {
     }
 
     String welcomePrompt = "Welcome to the roulette table! This is a tens table. " +
