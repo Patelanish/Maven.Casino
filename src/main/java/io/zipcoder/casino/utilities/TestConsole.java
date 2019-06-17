@@ -49,5 +49,4 @@ public class TestConsole implements ConsoleIO {
         String result = history.get(counter);
         return result;
     }
-
 }
