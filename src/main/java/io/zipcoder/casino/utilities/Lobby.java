@@ -80,10 +80,10 @@ public class Lobby {
                     Roulette roulette = new Roulette(base,dealer);
                     break;
                 case "CRAPS":
-                    //Craps craps = new Craps(base, dealer);
+                    Craps craps = new Craps(base, dealer, console);
                     break;
                 case "LAST CHANCE":
-                    //LastChance lc = new LastChance(base,dealer);
+                    LastChance lc = new LastChance(base,dealer, console);
                     break;
                 case "BAR":
                     Bar bar = new Bar(base);

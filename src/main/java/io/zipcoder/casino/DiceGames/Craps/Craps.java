@@ -18,11 +18,12 @@ public class Craps extends DiceGame implements GamblingGame {
 
     public Craps(BasePlayer base, BasePlayer dealer, Console console){
         super();
-        this.player = new CrapsPlayer(player);
+        this.player = new CrapsPlayer(base);
         this.dealer = new CrapsPlayer(dealer);
         this.startBet = 0;
         this.minBet = 20;
         this.console = console;
+        initGame();
 
     }
 

@@ -14,6 +14,11 @@ public class LastChancePlayer extends BasePlayer {
 
     private List<Dice> bin;
 
+    public LastChancePlayer(BasePlayer player) {
+        super();
+        this.bin = bin;
+    }
+
     public LastChancePlayer(String name, List<Dice> bin) {
         super(name);
         this.bin = bin;

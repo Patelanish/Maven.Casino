@@ -3,6 +3,7 @@ package io.zipcoder.casino.DiceGames.LastChance;
 import io.zipcoder.casino.DiceGames.UtilitiesDice.DiceGame;
 import io.zipcoder.casino.DiceGames.UtilitiesDice.Dice;
 import io.zipcoder.casino.utilities.BasePlayer;
+import io.zipcoder.casino.utilities.Console;
 import io.zipcoder.casino.utilities.GamblingGame;
 //import io.zipcoder.casino.utilities.Lobby;
 
@@ -16,7 +17,7 @@ import java.util.Formatter;
 import static io.zipcoder.casino.DiceGames.UtilitiesDice.Dice.*;
 //import static io.zipcoder.casino.utilities.Lobby.*;
 
-public abstract class LastChance extends DiceGame implements GamblingGame{
+public class LastChance extends DiceGame implements GamblingGame{
     public static Object set;
     /**
      *   public void initGame(){
@@ -41,6 +42,17 @@ public abstract class LastChance extends DiceGame implements GamblingGame{
     Integer multiplier = 1;
     String gameScreen = "";
     BasePlayer player;
+    LastChancePlayer lastChancePlayer;
+    Console console;
+
+
+    public LastChance(BasePlayer player, BasePlayer cpu, Console console){
+        this.lastChancePlayer = new LastChancePlayer(player);
+        this.console = console;
+        this.player = player;
+        initGame();
+
+    }
 
 
     public void initGame(){
@@ -51,14 +63,16 @@ public abstract class LastChance extends DiceGame implements GamblingGame{
         pot = 0;
         multiplier = 1;
 
-        String input = "";
-        while (input.equals("quit")) {
+        String input = console.getStringInput("What would you like to do?");
+        while (!input.equals("quit")) {
             switch (input) {
                 case "quit":
                     break;
                 case "play":
-                    welcomeMessage(); //Print welcome, prompt input
-                    setupGame(bet, multiplier); //use input to set bet, multiplier, pot, rolls, and calls playGame()
+                    console.println(welcomeScreen()); //Print welcome, prompt input
+                    Integer thisBet = console.getIntegerInput("Bet?");
+                    Integer thisMultiplier = console.getIntegerInput("Multiplier?");
+                    setupGame(thisBet, thisMultiplier); //use input to set bet, multiplier, pot, rolls, and calls playGame()
                     playGame();
                     //                 printResult();
             }
@@ -66,9 +80,8 @@ public abstract class LastChance extends DiceGame implements GamblingGame{
     }
 
 
-    public void welcomeScreen(String arg[]){
-        String welcomeScreen = String.format
-                ("\tTo win this game, you must match the dealers 5 dice \n" +
+    public String welcomeScreen(){
+        String welcomeScreen = "\tTo win this game, you must match the dealers 5 dice \n" +
                 "\tin a limited amount of rolls. The dealer will hold \n" +
                 "matching dice between rolls to maximize your chances.\n\tExample 1:\n" +
                         "\tDealer Dice: 1,1,3,5,5\n" +
@@ -97,8 +110,8 @@ public abstract class LastChance extends DiceGame implements GamblingGame{
                         "\t\n" +
                         "\tNow that you know how to play, enter your bet as a positive \n" +
                         "\tinteger, followed by a comma, and your chosen multiplier as \n" +
-                        "\tan integer between 2 and 5.\n");
-        System.out.println(welcomeScreen);
+                        "\tan integer between 2 and 5.\n";
+        return welcomeScreen;
     }
     public LastChancePlayer getPlayer() { return (LastChancePlayer) player; }
 
@@ -108,27 +121,31 @@ public abstract class LastChance extends DiceGame implements GamblingGame{
 
     public void setupGame(Integer iBet,Integer iMultiplier){
         //Run check that iBet <= wallet && 2 < iMultiplier <7
-        while(player.removeFromWallet(iBet) == false) { //Call the players wallet, not the class's wallet
+        //while(player.removeFromWallet(iBet) == false) { //Call the players wallet, not the class's wallet
             //error message
-        }
-        bet = iBet;
-        multiplier = iMultiplier;
-        pot = bet * multiplier;
-        rolls = 7 - multiplier;
+        //}
+        this.bet = iBet;
+        this.multiplier = iMultiplier;
+        this.pot = bet * multiplier;
+        this.rolls = 7 - multiplier;
     }
 
     public void playGame(){
 
-        String gameScreen = String.format("\n" +
-                "\t\t\t\tLast Chance\n" +
-                "\t%1$s's Wallet: %2$s           Possible Winnings: %3$s\n" +
-                "\t\n" +
-                "\tDealer Dice: %4$d\n" +
-                "\tPlayer Dice: %5$d\n" +
-                "\tMatching Dice: %6$d\n" +
-                "\tRolls remaining: %7$d\n" +
-                "\t\n" +
-                "\tEnter 'roll' to roll the dice or 'lobby' to forfiet your bet.\n");
+//        String gameScreen = String.format("\n" +
+//                "\t\t\t\tLast Chance\n" +
+//                "\t%1$s's Wallet: %2$s           Possible Winnings: %3$s\n" +
+//                "\t\n" +
+//                "\tDealer Dice: %4$d\n" +
+//                "\tPlayer Dice: %5$d\n" +
+//                "\tMatching Dice: %6$d\n" +
+//                "\tRolls remaining: %7$d\n" +
+//                "\t\n" +
+//                "\tEnter 'roll' to roll the dice or 'lobby' to forfiet your bet.\n");
+
+
+
+
         // why can't I use name, and wallet from BasePlayer.basePlayer?
 //                , name, wallet, pot, dealerDice, playerDice, heldDice, rolls);
         Dice.setNumOfDice(5 - heldDice.size()); //sets Integer numOfDice to what hasn't been held yet
@@ -143,16 +160,16 @@ public abstract class LastChance extends DiceGame implements GamblingGame{
     }
 
     public void printGame(){
-        System.out.print(gameScreen);
+        console.println(gameScreen);
         boolean b = false;
         do{
             try{
-                Scanner n = new Scanner(System.in);
-                boolean bn = n.nextBoolean();
-                if (bn == true){
+                String result = console.getStringInput("Roll or go to lobby?");
+                //boolean bn = n.nextBoolean();
+                if (result.equals("roll")){
                     this.playGame();
-                } else if(bn == false){ //Change this to "roll", "lobby", or exception
-     //               Lobby.lobby();
+                } else if(result.equals("lobby")){ //Change this to "roll", "lobby", or exception
+                    Lobby lb = new Lobby(console, player, new BasePlayer());
                 }
             } catch(InputMismatchException e){
                 System.out.println("Sorry, I didn't quite catch that. Type either 'roll' or lobby'");
@@ -162,7 +179,33 @@ public abstract class LastChance extends DiceGame implements GamblingGame{
 
     public Boolean checkWin(ArrayList<Integer> dealerDice, ArrayList<Integer> heldDice) {
         Boolean win = false;
-        Dice.compare(Dice.dealerDice, Dice.heldDice);
+        Dice.compare(dealerDice, heldDice);
+
+        if (dealerDice.equals(heldDice)) {
+            console.println("You won!");
+        } else {
+            console.println("You lost...");
+        }
         return win;
+    }
+
+    @Override
+    public void welcomeMessage() {
+
+    }
+
+    @Override
+    public String placeWager() {
+        return null;
+    }
+
+    @Override
+    public void increaseMinBet() {
+
+    }
+
+    @Override
+    public void decreaseMinBet() {
+
     }
 }
