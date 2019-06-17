@@ -115,7 +115,7 @@ public class Roulette implements GamblingGame {
     }
 
     public void run(){
-        System.out.println("Welcome to the Roulette tens table! The minimum bet is $10. Spread your ten around.\n"
+        console.println("Welcome to the Roulette tens table! The minimum bet is $10. Spread your ten around.\n"
                 + " If you select the correct color, you win double your bet\n"
                 + " If you select the correct odd/even, you win double your bet\n"
                 + " If you select the right number, you win 30 TIMES your bet\n"
